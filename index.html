@@ -23,6 +23,8 @@ html, body { margin: 0; font-family: Georgia, serif; }
   pointer-events: none; white-space: pre-wrap; }
 #hint { position: fixed; bottom: 24px; left: 0; right: 0; z-index: 999; text-align: center;
   color: #e8dcc0; font-size: 14px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); display: none; }
+/* hide MindAR's built-in white scanning/loading overlays */
+.mindar-ui-overlay { display: none !important; }
 </style>
 </head>
 <body>
@@ -48,7 +50,7 @@ html, body { margin: 0; font-family: Georgia, serif; }
 const MENU_URL = './menu.html';
 const logEl = document.getElementById('log');
 const log = (m) => { logEl.textContent += m + '\n'; };
-log('version 9 (clean mindar layout)');
+log('version 10');
 window.addEventListener('error', (e) => log('JS ERROR: ' + e.message));
 
 const sceneEl = document.querySelector('a-scene');

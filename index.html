@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Feast on Olympus - AR</title>
+<script src="./libs/aframe.min.js"></script>
+<script src="./libs/mindar-image-aframe.prod.js"></script>
+<style>
+html, body { margin: 0; height: 100%; background: #0d0b08; font-family: Georgia, serif; overflow: hidden; }
+#start-overlay { position: fixed; inset: 0; z-index: 20;
+  background: radial-gradient(ellipse at 50% 30%, #2a2015 0%, #0d0b08 70%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 24px; color: #e8dcc0; text-align: center; padding: 32px; }
+#start-overlay h1 { font-size: 22px; letter-spacing: 0.25em; text-transform: uppercase;
+  font-weight: normal; margin: 0; color: #c9a84c; }
+#start-overlay p { max-width: 300px; line-height: 1.6; margin: 0; font-size: 15px; opacity: 0.85; }
+#start-btn { background: none; border: 1px solid #c9a84c; color: #c9a84c;
+  padding: 14px 40px; font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-family: inherit; cursor: pointer; }
+#log { position: fixed; top: 8px; left: 8px; right: 8px; z-index: 30;
+  color: #7fff9e; font: 12px/1.5 monospace; text-shadow: 0 1px 3px #000;
+  pointer-events: none; white-space: pre-wrap; }
+#hint { position: fixed; bottom: 24px; left: 0; right: 0; z-index: 15; text-align: center;
+  color: #e8dcc0; font-size: 14px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); display: none; }
+</style>
+</head>
+<body>
+<div id="log"></div>
+<div id="start-overlay">
+  <h1>Feast on Olympus</h1>
+  <p>Point your camera at the artwork and the gods will come to life. Tap them to reveal the menu.</p>
+  <button id="start-btn">Begin</button>
+</div>
+<div id="hint">Aim at the menu artwork</div>
+
+<a-scene
+  mindar-image="imageTargetSrc: ./targets.mind; autoStart: false; uiScanning: no; uiLoading: no;"
+  color-space="sRGB" renderer="colorManagement: true" embedded
+  vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+  <a-assets timeout="5000">
+    <video id="feast-video" src="./assets/feast.mp4" preload="auto" loop muted playsinline webkit-playsinline crossorigin="anonymous"></video>
+  </a-assets>
+  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+  <a-entity id="target" mindar-image-target="targetIndex: 0">
+    <a-video src="#feast-video" width="1" height="1.333" position="0 0 0"></a-video>
+  </a-entity>
+</a-scene>
+
+<script>
+const MENU_URL = './menu.html';
+const logEl = document.getElementById('log');
+const log = (m) => { logEl.textContent += m + '\n'; };
+window.addEventListener('error', (e) => log('JS ERROR: ' + e.message));
+
+// preflight checks
+fetch('./targets.mind').then(r => log('targets.mind: ' + r.status + (r.ok ? ' OK' : ' <-- MISSING')));
+fetch('./assets/feast.mp4', { method: 'HEAD' }).then(r => log('feast.mp4: ' + r.status + (r.ok ? ' OK' : ' <-- MISSING')));
+
+const sceneEl = document.querySelector('a-scene');
+const video = document.querySelector('#feast-video');
+const hint = document.getElementById('hint');
+const target = document.getElementById('target');
+let targetVisible = false;
+let arStarted = false;
+
+sceneEl.addEventListener('arReady', () => {
+  log('AR READY');
+  // all good: clear the diagnostics after a moment
+  setTimeout(() => { logEl.textContent = ''; }, 2500);
+});
+sceneEl.addEventListener('arError', (e) => log('AR ERROR: ' + JSON.stringify(e.detail || {})));
+
+document.getElementById('start-btn').addEventListener('click', async () => {
+  document.getElementById('start-overlay').style.display = 'none';
+  hint.style.display = 'block';
+  log('starting AR (first load can take ~5-10s)...');
+  try { await video.play(); video.pause(); } catch (e) {}
+  try {
+    await sceneEl.systems['mindar-image-system'].start();
+  } catch (e) { log('mindar start FAILED: ' + e.message); }
+  setTimeout(() => { arStarted = true; }, 500);
+});
+
+target.addEventListener('targetFound', () => {
+  targetVisible = true;
+  hint.textContent = 'Tap the gods to see the menu';
+  video.currentTime = 0; video.play();
+});
+target.addEventListener('targetLost', () => {
+  targetVisible = false;
+  hint.textContent = 'Aim at the menu artwork';
+  video.pause();
+});
+document.addEventListener('click', () => {
+  if (arStarted && targetVisible) window.location.href = MENU_URL;
+});
+</script>
+</body>
+</html>

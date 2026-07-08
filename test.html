@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AR Smoke Test</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #0d0b08; overflow: hidden; font-family: Georgia, serif; }
+    #cam { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    #feast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+             width: 60vw; max-width: 340px; display: none; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    #btn { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+           padding: 14px 36px; background: rgba(13,11,8,0.75); color: #c9a84c;
+           border: 1px solid #c9a84c; font-size: 15px; letter-spacing: 0.2em;
+           text-transform: uppercase; font-family: inherit; cursor: pointer; z-index: 10; }
+    #status { position: fixed; top: 16px; left: 0; right: 0; text-align: center;
+              color: #e8dcc0; font-size: 14px; text-shadow: 0 1px 4px #000; z-index: 10; }
+  </style>
+</head>
+<body>
+  <video id="cam" autoplay playsinline muted></video>
+  <video id="feast" src="./assets/feast.mp4" loop playsinline></video>
+  <div id="status">Step 1: allow camera access</div>
+  <button id="btn">Start camera</button>
+  <script>
+    const cam = document.getElementById('cam');
+    const feast = document.getElementById('feast');
+    const status = document.getElementById('status');
+    const btn = document.getElementById('btn');
+    let stage = 0;
+
+    btn.addEventListener('click', async () => {
+      if (stage === 0) {
+        try {
+          cam.srcObject = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'environment' }, audio: false
+          });
+          status.textContent = 'Camera OK ✓ — Step 2: play the video';
+          btn.textContent = 'Play video';
+          stage = 1;
+        } catch (e) {
+          status.textContent = 'Camera failed: ' + e.name + ' (are you on localhost or https?)';
+        }
+      } else if (stage === 1) {
+        feast.style.display = 'block';
+        feast.muted = false;
+        try {
+          await feast.play();
+          status.textContent = 'Video playing over camera ✓ — pipeline works';
+          btn.textContent = 'Done';
+          stage = 2;
+        } catch (e) {
+          status.textContent = 'Video failed: ' + e.name;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

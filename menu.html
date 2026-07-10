@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Feast on Olympus — Dinner with Gabe &amp; Lan</title>
+  <title>The Golden Hour — Dinner with Gabe &amp; Lan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --marble: #f6f1e4;
-      --ink: #241f18;
-      --gold: #9c7a2f;
-      --crimson: #7a1f1f;
-      --vein: #d9d2c2;
+      --ivory: #f7f2e7;
+      --ink: #241c14;
+      --cognac: #6b4526;
+      --gold: #9a7b3f;
+      --hairline: #d8cdb6;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; }
     body {
-      background: #e9e2d1;
-      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: #e9e1cf;
+      font-family: 'EB Garamond', Georgia, serif;
       color: var(--ink);
       display: flex; justify-content: center;
       padding: 32px 16px;
@@ -26,75 +26,60 @@
     }
 
     .card {
-      background: var(--marble);
+      background: var(--ivory);
       width: 100%; max-width: 600px;
-      border: 1px solid var(--gold);
-      outline: 4px double var(--gold);
-      outline-offset: 6px;
-      padding: 0 0 36px;
-      box-shadow: 0 10px 40px rgba(36,31,24,0.18);
+      padding: 14px;
+      box-shadow: 0 12px 44px rgba(36,28,20,0.20);
+    }
+    /* engraved double hairline frame */
+    .inner {
+      border: 1px solid var(--ink);
+      outline: 1px solid var(--ink);
+      outline-offset: 3px;
+      margin: 3px;
+      padding: 0 0 40px;
     }
 
     .art { display: block; width: 100%; height: auto; }
 
-    /* Greek key meander band — also the visual cue framing the AR target */
-    .meander {
-      height: 14px;
-      background-color: var(--marble);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'%3E%3Cpath d='M1 11 L1 1 L15 1 L15 7 L7 7 L7 4 L11 4' fill='none' stroke='%239c7a2f' stroke-width='1.6'/%3E%3C/svg%3E");
-      background-repeat: repeat-x;
-      background-position: center;
-      margin: 10px 24px;
+    .divider {
+      display: flex; align-items: center; gap: 14px;
+      margin: 22px 56px 0;
     }
+    .divider::before, .divider::after {
+      content: ""; height: 1px; flex: 1; background: var(--hairline);
+    }
+    .divider span { color: var(--gold); font-size: 9px; letter-spacing: 0; }
 
-    header { text-align: center; padding: 18px 32px 4px; }
+    header { text-align: center; padding: 20px 40px 0; }
     .occasion {
-      font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 0.35em;
-      text-transform: uppercase; color: var(--crimson); margin: 0 0 8px;
+      font-size: 12.5px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--cognac); margin: 0 0 14px; font-weight: 500;
     }
     h1 {
-      font-family: 'Cinzel', serif; font-weight: 600; font-size: 30px;
-      letter-spacing: 0.14em; text-transform: uppercase; margin: 0;
+      font-family: 'Libre Caslon Display', serif; font-weight: 400;
+      font-size: 31px; letter-spacing: 0.18em; text-transform: uppercase;
+      margin: 0; line-height: 1.25;
     }
     .date {
-      font-style: italic; font-size: 17px; color: var(--gold); margin: 6px 0 0;
+      font-size: 15px; font-style: italic; color: #6d604c; margin: 12px 0 0;
     }
 
-    .courses { padding: 10px 48px 0; }
-    .course { text-align: center; margin: 22px 0; }
-    .numeral {
-      font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.3em;
-      color: var(--gold);
-      display: flex; align-items: center; gap: 14px; justify-content: center;
-      margin-bottom: 6px;
-    }
-    .numeral::before, .numeral::after {
-      content: ""; height: 1px; width: 42px; background: var(--vein);
+    .courses { padding: 14px 56px 0; }
+    .course { text-align: center; margin: 26px 0; }
+    .marker {
+      font-size: 11px; letter-spacing: 0.38em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px; font-weight: 500;
     }
     .dish {
-      font-family: 'Cinzel', serif; font-weight: 400; font-size: 17px;
-      letter-spacing: 0.06em; margin: 0 0 4px;
+      font-size: 16.5px; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      margin: 0 0 6px;
     }
     .desc {
-      font-size: 16.5px; font-style: italic; line-height: 1.45;
-      margin: 0 auto; max-width: 40ch; color: #4a4335;
+      font-size: 16px; font-style: italic; line-height: 1.5;
+      margin: 0 auto; max-width: 44ch; color: #5c5140;
     }
-
-    footer { text-align: center; padding: 8px 40px 0; }
-    .scan-label {
-      font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--crimson); margin: 14px 0 10px;
-    }
-    .scan-hint { font-size: 15.5px; font-style: italic; color: #4a4335; margin: 0 0 12px; }
-    .qr-slot {
-      width: 92px; height: 92px; margin: 0 auto;
-      border: 1px dashed var(--gold);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; color: var(--gold); letter-spacing: 0.1em;
-      font-family: 'Cinzel', serif; text-transform: uppercase; text-align: center;
-      padding: 8px;
-    }
-    .qr-slot img { width: 100%; height: 100%; }
 
     @media print {
       body { background: #fff; padding: 0; }
@@ -105,55 +90,52 @@
 </head>
 <body>
   <div class="card">
-    <img class="art" src="./assets/artwork.png" alt="Warriors duel before the gods of Olympus" />
-    <div class="meander"></div>
+    <div class="inner">
+      <img class="art" src="./assets/artwork.png" alt="Menu artwork — scan with your camera to bring it to life" />
 
-    <header>
-      <p class="occasion">Dinner with Gabe &amp; Lan</p>
-      <h1>Feast on Olympus</h1>
-      <p class="date">The Tenth of July, MMXXVI</p>
-    </header>
+      <header>
+        <p class="occasion">Dinner with Gabe &amp; Lan</p>
+        <h1>The Golden Hour</h1>
+        <p class="date">The Tenth of July, Two Thousand Twenty-Six</p>
+      </header>
 
-    <section class="courses">
-      <div class="course">
-        <div class="numeral">I</div>
-        <p class="dish">Dad's Kitchenette Herb Salad</p>
-        <p class="desc">Parsley, dill, mint, cilantro &amp; arugula — lemon-Dijon dressing, flavor-bomb tomatoes, toasted pine nuts</p>
-      </div>
-      <div class="course">
-        <div class="numeral">II</div>
-        <p class="dish">Sourdough with Tahini</p>
-        <p class="desc">Warm hearth bread, an offering before battle</p>
-      </div>
-      <div class="course">
-        <div class="numeral">III</div>
-        <p class="dish">Crispy Smashed Potatoes</p>
-        <p class="desc">Golden and shattering, as Sparta demands</p>
-      </div>
-      <div class="course">
-        <div class="numeral">IV</div>
-        <p class="dish">Steak, Two Ways</p>
-        <p class="desc">Chimichurri or miso butter — choose your allegiance</p>
-      </div>
-      <div class="course">
-        <div class="numeral">V</div>
-        <p class="dish">Roasted Asparagus</p>
-        <p class="desc">Lemon zest, shaved parmesan, toasted almonds</p>
-      </div>
-      <div class="course">
-        <div class="numeral">VI</div>
-        <p class="dish">Lemon Posset</p>
-        <p class="desc">Coconut cream, raspberries &amp; mint, crowned with shaved dark chocolate</p>
-      </div>
-    </section>
+      <div class="divider"><span>&#9670;</span></div>
 
-    <div class="meander"></div>
+      <section class="courses">
+        <div class="course">
+          <div class="marker">First</div>
+          <p class="dish">Dad's Kitchenette Herb Salad</p>
+          <p class="desc">Parsley, dill, mint, cilantro &amp; arugula — lemon-Dijon dressing, flavor-bomb tomatoes, toasted pine nuts</p>
+        </div>
+        <div class="course">
+          <div class="marker">Second</div>
+          <p class="dish">Sourdough with Tahini</p>
+          <p class="desc">Warm from the hearth, torn by hand</p>
+        </div>
+        <div class="course">
+          <div class="marker">Third</div>
+          <p class="dish">Crispy Smashed Potatoes</p>
+          <p class="desc">Golden, crisp-edged, sea salt &amp; herbs</p>
+        </div>
+        <div class="course">
+          <div class="marker">Fourth</div>
+          <p class="dish">Steak, Two Ways</p>
+          <p class="desc">Chimichurri or miso butter</p>
+        </div>
+        <div class="course">
+          <div class="marker">Fifth</div>
+          <p class="dish">Roasted Asparagus</p>
+          <p class="desc">Lemon zest, shaved parmesan, toasted almonds</p>
+        </div>
+        <div class="course">
+          <div class="marker">Sixth</div>
+          <p class="dish">Lemon Posset</p>
+          <p class="desc">Coconut cream, raspberries &amp; mint, crowned with shaved dark chocolate</p>
+        </div>
+      </section>
 
-    <footer>
-      <p class="scan-label">The Gods Await</p>
-      <p class="scan-hint">Scan the code, then aim your camera at the artwork above.</p>
-      <div class="qr-slot" id="qr">Paste QR code here</div>
-    </footer>
+      <div class="divider"><span>&#9670;</span></div>
+    </div>
   </div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Feast on Olympus - AR</title>
+<title>The Golden Hour - AR</title>
 <script src="./libs/aframe.min.js"></script>
 <script src="./libs/mindar-image-aframe.prod.js"></script>
 <style>
@@ -30,19 +30,19 @@ html, body { margin: 0; font-family: Georgia, serif; }
 <body>
 <div id="log"></div>
 <div id="start-overlay">
-  <h1>Feast on Olympus</h1>
-  <p>Point your camera at the artwork and the gods will come to life. Tap them to reveal the menu.</p>
+  <h1>The Golden Hour</h1>
+  <p>Point your camera at the artwork and the standoff will come to life. Tap to reveal the menu.</p>
   <button id="start-btn">Begin</button>
 </div>
 <div id="hint">Aim at the menu artwork</div>
 
-<a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+<a-scene mindar-image="imageTargetSrc: ./targets.mind?v=11;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
   <a-assets timeout="5000">
-    <video id="feast-video" src="./assets/feast.mp4" preload="auto" loop muted playsinline webkit-playsinline crossorigin="anonymous"></video>
+    <video id="feast-video" src="./assets/feast.mp4?v=11" preload="auto" loop muted playsinline webkit-playsinline crossorigin="anonymous"></video>
   </a-assets>
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
   <a-entity id="target" mindar-image-target="targetIndex: 0">
-    <a-video src="#feast-video" width="1.05" height="1.575" position="0 0 0"></a-video>
+    <a-video src="#feast-video" width="1.05" height="1.4" position="0 0 0"></a-video>
   </a-entity>
 </a-scene>
 
@@ -50,7 +50,7 @@ html, body { margin: 0; font-family: Georgia, serif; }
 const MENU_URL = './menu.html';
 const logEl = document.getElementById('log');
 const log = (m) => { logEl.textContent += m + '\n'; };
-log('version 10');
+log('version 11 - western');
 window.addEventListener('error', (e) => log('JS ERROR: ' + e.message));
 
 const sceneEl = document.querySelector('a-scene');
@@ -76,7 +76,7 @@ document.getElementById('start-btn').addEventListener('click', async (e) => {
 
 target.addEventListener('targetFound', () => {
   targetVisible = true;
-  hint.textContent = 'Tap the gods to see the menu';
+  hint.textContent = 'Tap the duel to see the menu';
   video.currentTime = 0; video.play();
 });
 target.addEventListener('targetLost', () => {

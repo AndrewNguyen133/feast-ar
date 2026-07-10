@@ -36,13 +36,13 @@ html, body { margin: 0; font-family: Georgia, serif; }
 </div>
 <div id="hint">Aim at the menu artwork</div>
 
-<a-scene mindar-image="imageTargetSrc: ./targets.mind?v=11;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+<a-scene mindar-image="imageTargetSrc: ./targets.mind?v=12;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
   <a-assets timeout="5000">
-    <video id="feast-video" src="./assets/feast.mp4?v=11" preload="auto" loop muted playsinline webkit-playsinline crossorigin="anonymous"></video>
+    <video id="feast-video" src="./assets/feast.mp4?v=12" preload="auto" loop muted playsinline webkit-playsinline crossorigin="anonymous"></video>
   </a-assets>
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
   <a-entity id="target" mindar-image-target="targetIndex: 0">
-    <a-video src="#feast-video" width="1.05" height="1.4" position="0 0 0"></a-video>
+    <a-video src="#feast-video" width="1.05" height="0.6" position="0 0 0"></a-video>
   </a-entity>
 </a-scene>
 
@@ -50,7 +50,7 @@ html, body { margin: 0; font-family: Georgia, serif; }
 const MENU_URL = './menu.html';
 const logEl = document.getElementById('log');
 const log = (m) => { logEl.textContent += m + '\n'; };
-log('version 11 - western');
+log('version 12 - western duel video');
 window.addEventListener('error', (e) => log('JS ERROR: ' + e.message));
 
 const sceneEl = document.querySelector('a-scene');

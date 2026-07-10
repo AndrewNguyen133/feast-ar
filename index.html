@@ -26,11 +26,11 @@ html, body { margin: 0; font-family: Georgia, serif; }
 /* hide MindAR's built-in white scanning/loading overlays */
 .mindar-ui-overlay { display: none !important; }
 #reveal { position: fixed; left: 0; right: 0; top: 50%; transform: translateY(-50%);
-  height: 75vh; z-index: 998; display: none;
+  height: 50vh; z-index: 998; display: none;
   background: rgba(0,0,0,0.92); box-shadow: 0 0 60px rgba(0,0,0,0.9);
   flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
 #reveal.on { display: flex; }
-#reveal video { width: 100%; max-height: calc(75vh - 44px); object-fit: contain; }
+#reveal video { width: 100%; max-height: calc(50vh - 44px); object-fit: contain; }
 #reveal .cap { color: #c9a84c; font-size: 13px; letter-spacing: 0.22em;
   text-transform: uppercase; }
 </style>
@@ -45,14 +45,11 @@ html, body { margin: 0; font-family: Georgia, serif; }
 <div id="hint">Aim at the menu artwork</div>
 
 <div id="reveal">
-  <video id="reveal-video" src="./assets/feast.mp4?v=14" preload="auto" loop muted playsinline webkit-playsinline></video>
+  <video id="reveal-video" src="./assets/feast.mp4?v=15" preload="auto" loop muted playsinline webkit-playsinline></video>
   <div class="cap">Tap to view the menu</div>
 </div>
 
-<a-scene mindar-image="imageTargetSrc: ./targets.mind?v=14;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-  <a-assets timeout="5000">
-    <video id="feast-video" src="./assets/feast.mp4?v=14" preload="auto" loop muted playsinline webkit-playsinline crossorigin="anonymous"></video>
-  </a-assets>
+<a-scene mindar-image="imageTargetSrc: ./targets.mind?v=15;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
   <a-entity id="target" mindar-image-target="targetIndex: 0"></a-entity>
 </a-scene>
@@ -61,11 +58,10 @@ html, body { margin: 0; font-family: Georgia, serif; }
 const MENU_URL = './menu.html';
 const logEl = document.getElementById('log');
 const log = (m) => { logEl.textContent += m + '\n'; };
-log('version 14 - fullscreen reveal');
+log('version 15 - 50% reveal, stall fix');
 window.addEventListener('error', (e) => log('JS ERROR: ' + e.message));
 
 const sceneEl = document.querySelector('a-scene');
-const video = document.querySelector('#feast-video');
 const reveal = document.getElementById('reveal');
 const revealVideo = document.getElementById('reveal-video');
 let revealed = false;
@@ -82,7 +78,6 @@ sceneEl.addEventListener('arError', (e) => log('AR ERROR: ' + JSON.stringify(e.d
 
 document.getElementById('start-btn').addEventListener('click', async (e) => {
   e.stopPropagation();
-  try { await video.play(); video.pause(); } catch (err) {}
   try { await revealVideo.play(); revealVideo.pause(); } catch (err) {}
   document.getElementById('start-overlay').style.display = 'none';
   hint.style.display = 'block';
@@ -96,11 +91,17 @@ target.addEventListener('targetFound', () => {
     reveal.classList.add('on');
     hint.style.display = 'none';
     revealVideo.currentTime = 0; revealVideo.play();
+    try { sceneEl.systems['mindar-image-system'].pause(true); log(''); } catch (err) {}
   }
 });
 target.addEventListener('targetLost', () => { targetVisible = false; });
 reveal.addEventListener('click', () => {
   if (interactionReady) window.location.href = MENU_URL;
+});
+['stalled','waiting','pause'].forEach((ev) => {
+  revealVideo.addEventListener(ev, () => {
+    if (revealed && revealVideo.paused) setTimeout(() => revealVideo.play().catch(()=>{}), 250);
+  });
 });
 </script>
 </body>

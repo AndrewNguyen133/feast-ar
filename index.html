@@ -55,10 +55,10 @@ html, body { margin: 0; font-family: Georgia, serif; background: #0d0b08; }
 </a-scene>
 
 <script>
-const MENU_URL = './menu.html?v=17';
+const MENU_URL = './menu.html?v=18';
 const logEl = document.getElementById('log');
 const log = (m) => { logEl.textContent += m + '\n'; };
-log('version 17');
+log('version 18 - camera stays on');
 window.addEventListener('error', (e) => log('JS ERROR: ' + e.message));
 
 const sceneEl = document.querySelector('a-scene');
@@ -92,9 +92,7 @@ target.addEventListener('targetFound', () => {
     hint.style.display = 'none';
     revealVideo.currentTime = 0; revealVideo.play();
     setTimeout(() => {
-      try { sceneEl.systems['mindar-image-system'].stop(); } catch (err) {}
-      try { sceneEl.style.display = 'none'; } catch (err) {}
-      document.querySelectorAll('video').forEach(v => { if (v !== revealVideo) v.remove(); });
+      try { sceneEl.systems['mindar-image-system'].pause(true); } catch (err) {}
     }, 300);
   }
 });

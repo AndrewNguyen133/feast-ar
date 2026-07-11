@@ -23,6 +23,8 @@ html, body { margin: 0; font-family: Georgia, serif; background: #0d0b08; }
   pointer-events: none; white-space: pre-wrap; }
 #hint { position: fixed; bottom: 24px; left: 0; right: 0; z-index: 999; text-align: center;
   color: #e8dcc0; font-size: 14px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); display: none; }
+#ver { position: fixed; bottom: 4px; right: 8px; z-index: 1002; color: rgba(201,168,76,0.55);
+  font: 10px monospace; pointer-events: none; }
 /* hide MindAR's built-in white scanning/loading overlays */
 .mindar-ui-overlay { display: none !important; }
 #reveal { position: fixed; left: 0; right: 0; top: 50%; transform: translateY(-50%);
@@ -43,6 +45,7 @@ html, body { margin: 0; font-family: Georgia, serif; background: #0d0b08; }
   <button id="start-btn">Begin</button>
 </div>
 <div id="hint">Aim at the menu artwork</div>
+<div id="ver">v19</div>
 
 <div id="reveal">
   <video id="reveal-video" src="./assets/feast.mp4?v=16" preload="auto" loop muted playsinline webkit-playsinline></video>
@@ -58,7 +61,7 @@ html, body { margin: 0; font-family: Georgia, serif; background: #0d0b08; }
 const MENU_URL = './menu.html?v=18';
 const logEl = document.getElementById('log');
 const log = (m) => { logEl.textContent += m + '\n'; };
-log('version 18 - camera stays on');
+log('version 19');
 window.addEventListener('error', (e) => log('JS ERROR: ' + e.message));
 
 const sceneEl = document.querySelector('a-scene');

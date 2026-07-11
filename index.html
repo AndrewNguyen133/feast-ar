@@ -55,10 +55,10 @@ html, body { margin: 0; font-family: Georgia, serif; background: #0d0b08; }
 </a-scene>
 
 <script>
-const MENU_URL = './menu.html';
+const MENU_URL = './menu.html?v=17';
 const logEl = document.getElementById('log');
 const log = (m) => { logEl.textContent += m + '\n'; };
-log('version 16 - decoder watchdog');
+log('version 17');
 window.addEventListener('error', (e) => log('JS ERROR: ' + e.message));
 
 const sceneEl = document.querySelector('a-scene');
